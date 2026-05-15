@@ -7,6 +7,7 @@ namespace WeatherReport
         public App()
         {
             InitializeComponent();
+            Services.SettingsService.Instance.ApplyTheme();
         }
 
         protected override Window CreateWindow(IActivationState? activationState)

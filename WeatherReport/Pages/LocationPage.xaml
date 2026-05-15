@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="WeatherReport.Pages.LocationsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Shell.NavBarIsVisible="False"
+    BackgroundColor="{DynamicResource Background}">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- ══════════════════════════════ TOP APP BAR ══════════════════════════════ -->
+        <Border Grid.Row="0"
+                BackgroundColor="{DynamicResource Surface}"
+                StrokeThickness="0"
+                Stroke="Transparent">
+            <Grid Padding="16,12" ColumnDefinitions="Auto,*,Auto">
+                <Label Grid.Column="0" Text="☰" FontSize="22"
+                       TextColor="{DynamicResource PrimaryDim}" VerticalOptions="Center"/>
+                <Label Grid.Column="1" Text="WeatherReport"
+                       FontSize="20" FontAttributes="Bold"
+                       TextColor="{DynamicResource OnSurface}"
+                       VerticalOptions="Center" Margin="12,0,0,0"/>
+                <Label Grid.Column="2" Text="🔍" FontSize="20"
+                       TextColor="{DynamicResource PrimaryDim}" VerticalOptions="Center"/>
+            </Grid>
+        </Border>
+
+        <!-- ══════════════════════════════ SCROLL BODY ══════════════════════════════ -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout x:Name="LocationsContent"
+                                 Padding="20,16,20,32"
+                                 Spacing="16">
+
+                <!-- ─── Page Header ──────────────────────────────────────────── -->
+                <VerticalStackLayout Spacing="2">
+                    <Label Text="Locations"
+                           Style="{DynamicResource PageTitleStyle}" />
+                    <Label Text="Saved cities — Philippines"
+                           Style="{DynamicResource SubtitleStyle}" />
+                </VerticalStackLayout>
+
+                <!-- ─── Search Bar ───────────────────────────────────────────── -->
+                <Border BackgroundColor="{DynamicResource SurfaceContainerLow}"
+                        StrokeThickness="0"
+                        Stroke="Transparent"
+                        StrokeShape="RoundRectangle 14"
+                        Padding="14,10">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <Label Grid.Column="0"
+                               Text="🔍" FontSize="18" VerticalOptions="Center"
+                               TextColor="{DynamicResource Outline}"/>
+                        <Entry Placeholder="Search for a city…"
+                               Grid.Column="1"
+                               Style="{DynamicResource SearchEntryStyle}"
+                               HorizontalOptions="Fill"
+                               VerticalOptions="Center"/>
+                    </Grid>
+                </Border>
+
+                <!-- ─── Section label ────────────────────────────────────────── -->
+                <Label Text="SAVED LOCATIONS"
+                       FontSize="11" FontAttributes="Bold"
+                       TextColor="{DynamicResource Outline}"
+                       Margin="2,4,0,0" />
+
+                <!-- ─── Cebu City (current / home, highlighted) ──────────────── -->
+                <Border StrokeThickness="0"
+                        Stroke="Transparent"
+                        StrokeShape="RoundRectangle 16"
+                        Padding="20,16"
+                        BackgroundColor="{DynamicResource PrimaryContainer}">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Grid.Column="0" Spacing="3">
+                            <Label Text="📍 CURRENT LOCATION"
+                                   FontSize="10" FontAttributes="Bold"
+                                   TextColor="{DynamicResource PrimaryDim}" />
+                            <Label Text="Cebu City"
+                                   FontSize="22" FontAttributes="Bold"
+                                   TextColor="{DynamicResource OnSurface}" />
+                            <Label Text="Philippines"
+                                   FontSize="13"
+                                   TextColor="{DynamicResource OnSurfaceVariant}" />
+                            <Label Text="Sunny" FontSize="14"
+                                   TextColor="{DynamicResource PrimaryDim}" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1"
+                                             HorizontalOptions="End"
+                                             VerticalOptions="Center"
+                                             Spacing="0">
+                            <Label Text="☀️" FontSize="44"
+                                   HorizontalOptions="End"/>
+                            <Label x:Name="CebuTempLabel"
+                                   Text="33°C"
+                                   FontSize="30" FontAttributes="Bold"
+                                   TextColor="{DynamicResource Primary}"
+                                   HorizontalOptions="End"/>
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+
+                <!-- ─── Manila ───────────────────────────────────────────────── -->
+                <Border Style="{DynamicResource LocationCardStyle}">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Grid.Column="0" Spacing="3">
+                            <Label Text="LOCAL TIME  14:30"
+                                   FontSize="10" FontAttributes="Bold"
+                                   TextColor="{DynamicResource Outline}" />
+                            <Label Text="Manila"
+                                   FontSize="22" FontAttributes="Bold"
+                                   TextColor="{DynamicResource OnSurface}" />
+                            <Label Text="Cloudy" FontSize="13"
+                                   TextColor="{DynamicResource OnSurfaceVariant}" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1"
+                                             HorizontalOptions="End"
+                                             VerticalOptions="Center"
+                                             Spacing="0">
+                            <Label Text="☁️" FontSize="40" HorizontalOptions="End"/>
+                            <Label x:Name="ManilaTempLabel"
+                                   Text="31°C"
+                                   FontSize="28" FontAttributes="Bold"
+                                   TextColor="{DynamicResource Primary}"
+                                   HorizontalOptions="End"/>
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+
+                <!-- ─── Davao City ────────────────────────────────────────────── -->
+                <Border Style="{DynamicResource LocationCardStyle}">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Grid.Column="0" Spacing="3">
+                            <Label Text="LOCAL TIME  14:30"
+                                   FontSize="10" FontAttributes="Bold"
+                                   TextColor="{DynamicResource Outline}" />
+                            <Label Text="Davao City"
+                                   FontSize="22" FontAttributes="Bold"
+                                   TextColor="{DynamicResource OnSurface}" />
+                            <Label Text="Rain Showers" FontSize="13"
+                                   TextColor="{DynamicResource OnSurfaceVariant}" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1"
+                                             HorizontalOptions="End"
+                                             VerticalOptions="Center"
+                                             Spacing="0">
+                            <Label Text="🌧️" FontSize="40" HorizontalOptions="End"/>
+                            <Label x:Name="DavaoTempLabel"
+                                   Text="28°C"
+                                   FontSize="28" FontAttributes="Bold"
+                                   TextColor="{DynamicResource Primary}"
+                                   HorizontalOptions="End"/>
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+
+                <!-- ─── Baguio ────────────────────────────────────────────────── -->
+                <Border Style="{DynamicResource LocationCardStyle}">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Grid.Column="0" Spacing="3">
+                            <Label Text="LOCAL TIME  14:30"
+                                   FontSize="10" FontAttributes="Bold"
+                                   TextColor="{DynamicResource Outline}" />
+                            <Label Text="Baguio"
+                                   FontSize="22" FontAttributes="Bold"
+                                   TextColor="{DynamicResource OnSurface}" />
+                            <Label Text="Mist" FontSize="13"
+                                   TextColor="{DynamicResource OnSurfaceVariant}" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1"
+                                             HorizontalOptions="End"
+                                             VerticalOptions="Center"
+                                             Spacing="0">
+                            <Label Text="🌫️" FontSize="40" HorizontalOptions="End"/>
+                            <Label x:Name="BaguioTempLabel"
+                                   Text="22°C"
+                                   FontSize="28" FontAttributes="Bold"
+                                   TextColor="{DynamicResource Primary}"
+                                   HorizontalOptions="End"/>
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+
+                <VerticalStackLayout x:Name="AddedLocationsStack" Spacing="16" />
+
+                <!-- ─── Add Location button ──────────────────────────────────── -->
+                <Button Text="＋  Add Location"
+                        Clicked="OnAddLocationClicked"
+                        Style="{DynamicResource GhostButtonStyle}"
+                        BorderColor="{DynamicResource OutlineVariant}"
+                        BorderWidth="1.5"
+                        CornerRadius="14"
+                        HeightRequest="52"
+                        HorizontalOptions="Fill"
+                        Margin="0,4,0,0" />
+
+                <!-- ─── Regional map placeholder ─────────────────────────────── -->
+                <VerticalStackLayout Spacing="8" Margin="0,8,0,0">
+                    <Label Text="Regional Overview"
+                           Style="{DynamicResource SectionTitleStyle}" />
+
+                    <Border StrokeThickness="0"
+                            Stroke="Transparent"
+                            StrokeShape="RoundRectangle 16"
+                            HeightRequest="180">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#9bd4f0" Offset="0.0" />
+                                <GradientStop Color="#195a72" Offset="1.0" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Grid>
+                            <!-- Animated ping (simulated) -->
+                            <Ellipse WidthRequest="14" HeightRequest="14"
+                                     Fill="{DynamicResource OnPrimary}"
+                                     HorizontalOptions="Center"
+                                     VerticalOptions="Center" />
+                            <Label Text="🗺️  Philippine Archipelago"
+                                   FontSize="13" FontAttributes="Bold"
+                                   TextColor="White" Opacity="0.85"
+                                   VerticalOptions="End"
+                                   HorizontalOptions="Start"
+                                   Margin="16,0,0,14" />
+                        </Grid>
+                    </Border>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

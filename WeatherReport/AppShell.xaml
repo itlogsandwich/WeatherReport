@@ -3,12 +3,54 @@
     x:Class="WeatherReport.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:WeatherReport"
-    Title="WeatherReport">
+    xmlns:pages="clr-namespace:WeatherReport.Pages"
+    Shell.NavBarIsVisible="False"
+    Shell.TabBarBackgroundColor="White"
+    Shell.TabBarForegroundColor="#29667e"
+    Shell.TabBarUnselectedColor="#9ca3af"
+    Shell.TabBarTitleColor="#29667e">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <TabBar>
+
+        <!-- Weather Tab -->
+        <ShellContent
+            Title="Weather"
+            Route="WeatherPage"
+            ContentTemplate="{DataTemplate pages:WeatherPage}">
+            <ShellContent.Icon>
+                <FontImageSource
+                    Glyph="&#x2601;"
+                    Color="#29667e"
+                    Size="22" />
+            </ShellContent.Icon>
+        </ShellContent>
+
+        <!-- Locations Tab -->
+        <ShellContent
+            Title="Locations"
+            Route="LocationsPage"
+            ContentTemplate="{DataTemplate pages:LocationsPage}">
+            <ShellContent.Icon>
+                <FontImageSource
+                    Glyph="&#x1F4CD;"
+                    Color="#29667e"
+                    Size="22" />
+            </ShellContent.Icon>
+        </ShellContent>
+
+        <!-- Settings Tab -->
+        <ShellContent
+            Title="Settings"
+            Route="SettingsPage"
+            ContentTemplate="{DataTemplate pages:SettingsPage}">
+            <ShellContent.Icon>
+                <FontImageSource
+                    Glyph="&#x2699;"
+                    Color="#29667e"
+                    Size="22" />
+            </ShellContent.Icon>
+        </ShellContent>
+
+    </TabBar>
 
 </Shell>

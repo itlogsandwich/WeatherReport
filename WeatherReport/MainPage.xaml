@@ -32,7 +32,7 @@
                 </Border>
 
                 <Label Grid.Column="1"
-                       Text="Atmosphere"
+                       Text="WeatherReport"
                        FontSize="20"
                        FontAttributes="Bold"
                        TextColor="#003F53"

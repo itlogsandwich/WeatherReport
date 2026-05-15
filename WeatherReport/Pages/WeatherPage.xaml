@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="WeatherReport.Pages.WeatherPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Shell.NavBarIsVisible="False"
+    BackgroundColor="{DynamicResource Background}">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- ══════════════════════════════ TOP APP BAR ══════════════════════════════ -->
+        <Border Grid.Row="0"
+                BackgroundColor="{DynamicResource Surface}"
+                StrokeThickness="0"
+                Stroke="Transparent"
+                ZIndex="10"
+                Shadow="{x:Null}">
+            <Grid Padding="16,12" ColumnDefinitions="Auto,*,Auto">
+
+                <Label Grid.Column="0"
+                       Text="☰"
+                       FontSize="22"
+                       TextColor="{DynamicResource PrimaryDim}"
+                       VerticalOptions="Center" />
+
+                <Label Grid.Column="1"
+                       Text="WeatherReport"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       TextColor="{DynamicResource OnSurface}"
+                       VerticalOptions="Center"
+                       Margin="12,0,0,0" />
+
+                <Label Grid.Column="2"
+                       Text="🔍"
+                       FontSize="20"
+                       TextColor="{DynamicResource PrimaryDim}"
+                       VerticalOptions="Center" />
+            </Grid>
+        </Border>
+
+        <!-- ══════════════════════════════ SCROLL BODY ══════════════════════════════ -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20,16,20,32" Spacing="20">
+
+                <!-- ─── HERO: Location + Temperature ─────────────────────────── -->
+                <VerticalStackLayout HorizontalOptions="Center" Spacing="2">
+
+                    <!-- Location pill -->
+                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="4">
+                        <Label Text="📍" FontSize="15" VerticalOptions="Center"
+                               TextColor="{DynamicResource Primary}" />
+                        <Label Text="Cebu City, Philippines"
+                               FontSize="17" FontAttributes="Bold"
+                               TextColor="{DynamicResource OnSurface}"
+                               VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+
+                    <!-- Big temperature -->
+                    <Label x:Name="TempLabel"
+                           Text="33°C"
+                           FontSize="88"
+                           FontAttributes="Bold"
+                           TextColor="{DynamicResource Primary}"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           Margin="0,8,0,0" />
+
+                    <!-- Weather icon -->
+                    <Label Text="☀️" FontSize="52"
+                           HorizontalOptions="Center"
+                           Margin="0,-8,0,0" />
+
+                    <!-- Condition name -->
+                    <Label Text="Sunny"
+                           FontSize="24" FontAttributes="Bold"
+                           TextColor="{DynamicResource OnSurface}"
+                           HorizontalOptions="Center" />
+
+                    <!-- Hi / Lo / Feels-like -->
+                    <Label x:Name="HiLoLabel"
+                           Text="H: 35°C   L: 28°C  •  Feels like 37°C"
+                           FontSize="13"
+                           TextColor="{DynamicResource OnSurfaceVariant}"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           Margin="0,2,0,0" />
+                </VerticalStackLayout>
+
+                <!-- ─── METRIC CARDS ──────────────────────────────────────────── -->
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
+
+                    <!-- Humidity -->
+                    <Border Grid.Column="0" Style="{DynamicResource MetricCardStyle}">
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="💧" FontSize="22" />
+                            <Label Text="HUMIDITY" FontSize="10" FontAttributes="Bold"
+                                   TextColor="{DynamicResource OnSurfaceVariant}" />
+                            <Label Text="78%" FontSize="22" FontAttributes="Bold"
+                                   TextColor="{DynamicResource OnSurface}" />
+                            <Label x:Name="DewPointLabel"
+                                   Text="Dew pt 27°C" FontSize="10"
+                                   TextColor="{DynamicResource OnSurfaceVariant}" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Wind -->
+                    <Border Grid.Column="1" Style="{DynamicResource MetricCardStyle}">
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="🌬️" FontSize="22" />
+                            <Label Text="WIND" FontSize="10" FontAttributes="Bold"
+                                   TextColor="{DynamicResource OnSurfaceVariant}" />
+                            <Label Text="15 kph" FontSize="22" FontAttributes="Bold"
+                                   TextColor="{DynamicResource OnSurface}" />
+                            <Label Text="SE gusts 22" FontSize="10"
+                                   TextColor="{DynamicResource OnSurfaceVariant}" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- UV Index -->
+                    <Border Grid.Column="2" Style="{DynamicResource MetricCardStyle}">
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="🌡️" FontSize="22" />
+                            <Label Text="UV INDEX" FontSize="10" FontAttributes="Bold"
+                                   TextColor="{DynamicResource OnSurfaceVariant}" />
+                            <Label Text="8 High" FontSize="22" FontAttributes="Bold"
+                                   TextColor="{DynamicResource OnSurface}" />
+                            <Label Text="Use SPF 50+" FontSize="10"
+                                   TextColor="{DynamicResource OnSurfaceVariant}" />
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+
+                <!-- ─── 5-DAY FORECAST ────────────────────────────────────────── -->
+                <VerticalStackLayout Spacing="0">
+                    <Label Text="5-Day Forecast"
+                           Style="{DynamicResource SectionTitleStyle}" />
+
+                    <Border Style="{DynamicResource CardStyle}" Padding="0">
+                        <VerticalStackLayout Spacing="0">
+
+                            <!-- Today -->
+                            <Grid Padding="20,15" BackgroundColor="{DynamicResource SurfaceContainerLow}"
+                                  ColumnDefinitions="*,Auto,Auto,Auto">
+                                <Label Grid.Column="0" Text="Today"
+                                       FontAttributes="Bold" FontSize="15"
+                                       TextColor="{DynamicResource OnSurface}" VerticalOptions="Center"/>
+                                <Label Grid.Column="1" Text="☀️" FontSize="20"
+                                       VerticalOptions="Center" Margin="0,0,14,0"/>
+                                <Label Grid.Column="2" x:Name="Day0High"
+                                       Text="35°C" FontAttributes="Bold" FontSize="15"
+                                       TextColor="{DynamicResource OnSurface}"
+                                       VerticalOptions="Center" Margin="0,0,10,0"/>
+                                <Label Grid.Column="3" x:Name="Day0Low"
+                                       Text="28°C" FontSize="14"
+                                       TextColor="{DynamicResource OnSurfaceVariant}"
+                                       VerticalOptions="Center"/>
+                            </Grid>
+
+                            <!-- Tue -->
+                            <Grid Padding="20,15" ColumnDefinitions="*,Auto,Auto,Auto">
+                                <Label Grid.Column="0" Text="Tue"
+                                       FontAttributes="Bold" FontSize="15"
+                                       TextColor="{DynamicResource OnSurface}" VerticalOptions="Center"/>
+                                <Label Grid.Column="1" Text="⛅" FontSize="20"
+                                       VerticalOptions="Center" Margin="0,0,14,0"/>
+                                <Label Grid.Column="2" x:Name="Day1High"
+                                       Text="34°C" FontAttributes="Bold" FontSize="15"
+                                       TextColor="{DynamicResource OnSurface}"
+                                       VerticalOptions="Center" Margin="0,0,10,0"/>
+                                <Label Grid.Column="3" x:Name="Day1Low"
+                                       Text="27°C" FontSize="14"
+                                       TextColor="{DynamicResource OnSurfaceVariant}"
+                                       VerticalOptions="Center"/>
+                            </Grid>
+
+                            <!-- Wed -->
+                            <Grid Padding="20,15" BackgroundColor="{DynamicResource SurfaceContainerLow}"
+                                  ColumnDefinitions="*,Auto,Auto,Auto">
+                                <Label Grid.Column="0" Text="Wed"
+                                       FontAttributes="Bold" FontSize="15"
+                                       TextColor="{DynamicResource OnSurface}" VerticalOptions="Center"/>
+                                <Label Grid.Column="1" Text="🌧️" FontSize="20"
+                                       VerticalOptions="Center" Margin="0,0,14,0"/>
+                                <Label Grid.Column="2" x:Name="Day2High"
+                                       Text="30°C" FontAttributes="Bold" FontSize="15"
+                                       TextColor="{DynamicResource OnSurface}"
+                                       VerticalOptions="Center" Margin="0,0,10,0"/>
+                                <Label Grid.Column="3" x:Name="Day2Low"
+                                       Text="25°C" FontSize="14"
+                                       TextColor="{DynamicResource OnSurfaceVariant}"
+                                       VerticalOptions="Center"/>
+                            </Grid>
+
+                            <!-- Thu -->
+                            <Grid Padding="20,15" ColumnDefinitions="*,Auto,Auto,Auto">
+                                <Label Grid.Column="0" Text="Thu"
+                                       FontAttributes="Bold" FontSize="15"
+                                       TextColor="{DynamicResource OnSurface}" VerticalOptions="Center"/>
+                                <Label Grid.Column="1" Text="🌧️" FontSize="20"
+                                       VerticalOptions="Center" Margin="0,0,14,0"/>
+                                <Label Grid.Column="2" x:Name="Day3High"
+                                       Text="29°C" FontAttributes="Bold" FontSize="15"
+                                       TextColor="{DynamicResource OnSurface}"
+                                       VerticalOptions="Center" Margin="0,0,10,0"/>
+                                <Label Grid.Column="3" x:Name="Day3Low"
+                                       Text="24°C" FontSize="14"
+                                       TextColor="{DynamicResource OnSurfaceVariant}"
+                                       VerticalOptions="Center"/>
+                            </Grid>
+
+                            <!-- Fri -->
+                            <Grid Padding="20,15" BackgroundColor="{DynamicResource SurfaceContainerLow}"
+                                  ColumnDefinitions="*,Auto,Auto,Auto">
+                                <Label Grid.Column="0" Text="Fri"
+                                       FontAttributes="Bold" FontSize="15"
+                                       TextColor="{DynamicResource OnSurface}" VerticalOptions="Center"/>
+                                <Label Grid.Column="1" Text="⛅" FontSize="20"
+                                       VerticalOptions="Center" Margin="0,0,14,0"/>
+                                <Label Grid.Column="2" x:Name="Day4High"
+                                       Text="32°C" FontAttributes="Bold" FontSize="15"
+                                       TextColor="{DynamicResource OnSurface}"
+                                       VerticalOptions="Center" Margin="0,0,10,0"/>
+                                <Label Grid.Column="3" x:Name="Day4Low"
+                                       Text="26°C" FontSize="14"
+                                       TextColor="{DynamicResource OnSurfaceVariant}"
+                                       VerticalOptions="Center"/>
+                            </Grid>
+
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- ─── MAP PLACEHOLDER ──────────────────────────────────────── -->
+                <Border StrokeThickness="0" Stroke="Transparent"
+                        StrokeShape="RoundRectangle 16"
+                        HeightRequest="160">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#a9e2ff" Offset="0.0" />
+                            <GradientStop Color="#29667e" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Grid>
+                        <Label Text="🗺️  Cebu, Visayas — Philippines"
+                               FontSize="13" FontAttributes="Bold"
+                               TextColor="White"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center" />
+                        <!-- Map label badge -->
+                        <Border BackgroundColor="{DynamicResource Surface}"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 24"
+                                Padding="12,6"
+                                VerticalOptions="End"
+                                HorizontalOptions="Start"
+                                Margin="16,0,0,14">
+                            <HorizontalStackLayout Spacing="6">
+                                <Label Text="🗺️" FontSize="12" VerticalOptions="Center"/>
+                                <Label Text="PRECIPITATION MAP"
+                                       FontSize="10" FontAttributes="Bold"
+                                       TextColor="{DynamicResource OnSurface}"
+                                       VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                        </Border>
+                    </Grid>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

@@ -186,6 +186,60 @@
         <Setter Property="HorizontalTextAlignment" Value="Center" />
     </Style>
 
+    <Style TargetType="Label" x:Key="PageTitleStyle">
+        <Setter Property="FontSize" Value="28" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="{DynamicResource OnSurface}" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="SectionTitleStyle">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="{DynamicResource OnSurface}" />
+        <Setter Property="Margin" Value="2,0,0,10" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="SubtitleStyle">
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="TextColor" Value="{DynamicResource OnSurfaceVariant}" />
+    </Style>
+
+    <Style TargetType="Entry" x:Key="SearchEntryStyle">
+        <Setter Property="PlaceholderColor" Value="{DynamicResource Outline}" />
+        <Setter Property="TextColor" Value="{DynamicResource OnSurface}" />
+        <Setter Property="MinimumHeightRequest" Value="36" />
+    </Style>
+
+    <Style TargetType="Border" x:Key="CardStyle">
+        <Setter Property="BackgroundColor" Value="{DynamicResource Surface}" />
+        <Setter Property="Stroke" Value="Transparent" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 16" />
+        <Setter Property="Padding" Value="20" />
+    </Style>
+
+    <Style TargetType="Border" x:Key="MetricCardStyle" BasedOn="{StaticResource CardStyle}">
+        <Setter Property="BackgroundColor" Value="{DynamicResource SurfaceContainerLow}" />
+        <Setter Property="Padding" Value="14,16" />
+        <Setter Property="MinimumHeightRequest" Value="128" />
+    </Style>
+
+    <Style TargetType="Border" x:Key="LocationCardStyle" BasedOn="{StaticResource CardStyle}">
+        <Setter Property="Padding" Value="20,16" />
+        <Setter Property="Stroke" Value="{DynamicResource OutlineVariant}" />
+        <Setter Property="StrokeThickness" Value="1" />
+    </Style>
+
+    <Style TargetType="Button" x:Key="GhostButtonStyle">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" Value="{DynamicResource Primary}" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Padding" Value="14,10" />
+        <Setter Property="MinimumHeightRequest" Value="44" />
+        <Setter Property="MinimumWidthRequest" Value="44" />
+    </Style>
+
     <Style TargetType="Picker">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
         <Setter Property="TitleColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray200}}" />

@@ -1,4 +1,4 @@
-﻿namespace WeatherReport
+namespace WeatherReport
 {
     public partial class AppShell : Shell
     {
