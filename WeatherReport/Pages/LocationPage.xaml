@@ -115,30 +115,39 @@
                            TextColor="#C84B4B"
                            HorizontalOptions="Center" />
 
-                    <VerticalStackLayout Spacing="8" Margin="0,8,0,0">
-                        <Label Text="Regional Overview" Style="{DynamicResource SectionTitleStyle}" />
+                    <VerticalStackLayout Spacing="0" Margin="0,8,0,0">
+                        <Label Text="Regional Overview"
+                               Style="{DynamicResource SectionTitleStyle}" />
 
-                        <Border StrokeThickness="0"
-                                Stroke="Transparent"
+                        <Border StrokeThickness="0" Stroke="Transparent"
                                 StrokeShape="RoundRectangle 16"
-                                HeightRequest="180">
-                            <Border.Background>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                    <GradientStop Color="#9bd4f0" Offset="0.0" />
-                                    <GradientStop Color="#195a72" Offset="1.0" />
-                                </LinearGradientBrush>
-                            </Border.Background>
+                                HeightRequest="250"
+                                Padding="0">
                             <Grid>
-                                <Ellipse WidthRequest="14" HeightRequest="14"
-                                         Fill="{DynamicResource OnPrimary}"
-                                         HorizontalOptions="Center"
-                                         VerticalOptions="Center" />
-                                <Label Text="🗺️  Philippine Archipelago"
-                                       FontSize="13" FontAttributes="Bold"
-                                       TextColor="White" Opacity="0.85"
-                                       VerticalOptions="End"
-                                       HorizontalOptions="Start"
-                                       Margin="16,0,0,14" />
+                                <Image Source="philippines_precipitation_map.png"
+                                       Aspect="AspectFill" />
+                                <BoxView BackgroundColor="#0B2433"
+                                         Opacity="0.32" />
+                                <VerticalStackLayout Padding="16" Spacing="4"
+                                                     VerticalOptions="Start">
+                                    <Label Text="LOCATION"
+                                           FontSize="10"
+                                           FontAttributes="Bold"
+                                           TextColor="#E9FAFF" />
+                                    <Label Text="Philippine Archipelago"
+                                           FontSize="18"
+                                           FontAttributes="Bold"
+                                           TextColor="White" />
+                                    <Label FontSize="11"
+                                           TextColor="#D4F6FF">
+                                        <Label.Text>
+                                            <MultiBinding StringFormat="{}{0}, {1}">
+                                                <Binding Path="City" />
+                                                <Binding Path="Country" />
+                                            </MultiBinding>
+                                        </Label.Text>
+                                    </Label>
+                                </VerticalStackLayout>
                             </Grid>
                         </Border>
                     </VerticalStackLayout>

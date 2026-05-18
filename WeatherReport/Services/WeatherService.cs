@@ -25,8 +25,9 @@ public class WeatherService : IWeatherService
 
         var url = $"{BaseUrl}?latitude={lat}&longitude={lon}" +
             "&current=temperature_2m,relative_humidity_2m,apparent_temperature," +
-            "wind_speed_10m,wind_gusts_10m,wind_direction_10m,uv_index,weather_code,dew_point_2m" +
-            "&daily=weather_code,temperature_2m_max,temperature_2m_min" +
+            "wind_speed_10m,wind_gusts_10m,wind_direction_10m,uv_index,weather_code,dew_point_2m," +
+            "precipitation,rain,showers" +
+            "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max" +
             $"&timezone={Uri.EscapeDataString(Timezone)}&forecast_days=5";
 
         using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
@@ -73,6 +74,13 @@ public class WeatherService : IWeatherService
             WindDir     = WeatherCodeMapper.WindCardinal(current.WindDirection),
             UvIndex     = (int)Math.Round(current.UvIndex),
             UvLabel     = WeatherCodeMapper.UvLabel(current.UvIndex),
+            PrecipitationMm          = current.Precipitation,
+            RainMm                   = current.Rain,
+            ShowersMm                = current.Showers,
+            DailyPrecipitationMm     = daily.PrecipitationSums.Length > 0 ? daily.PrecipitationSums[0] : 0,
+            PrecipitationProbability = daily.PrecipitationProbabilityMax.Length > 0
+                ? (int)Math.Round(daily.PrecipitationProbabilityMax[0])
+                : 0,
         };
 
         var dayCount = Math.Min(5, Math.Min(daily.Times.Length, Math.Min(daily.MaxTemps.Length, daily.MinTemps.Length)));
@@ -85,6 +93,10 @@ public class WeatherService : IWeatherService
                 HighC   = daily.MaxTemps[i],
                 LowC    = daily.MinTemps[i],
                 Icon    = dayIcon,
+                PrecipitationMm = daily.PrecipitationSums.Length > i ? daily.PrecipitationSums[i] : 0,
+                PrecipitationProbability = daily.PrecipitationProbabilityMax.Length > i
+                    ? (int)Math.Round(daily.PrecipitationProbabilityMax[i])
+                    : 0,
             });
         }
 
@@ -113,13 +125,18 @@ public class WeatherService : IWeatherService
         [JsonPropertyName("uv_index")]             public double UvIndex { get; set; }
         [JsonPropertyName("weather_code")]         public int WeatherCode { get; set; }
         [JsonPropertyName("dew_point_2m")]         public double DewPoint { get; set; }
+        [JsonPropertyName("precipitation")]        public double Precipitation { get; set; }
+        [JsonPropertyName("rain")]                 public double Rain { get; set; }
+        [JsonPropertyName("showers")]              public double Showers { get; set; }
     }
 
     private sealed class DailyBlock
     {
-        [JsonPropertyName("time")]               public DateTime[] Times       { get; set; } = Array.Empty<DateTime>();
-        [JsonPropertyName("weather_code")]       public int[]      WeatherCodes { get; set; } = Array.Empty<int>();
-        [JsonPropertyName("temperature_2m_max")] public double[]   MaxTemps    { get; set; } = Array.Empty<double>();
-        [JsonPropertyName("temperature_2m_min")] public double[]   MinTemps    { get; set; } = Array.Empty<double>();
+        [JsonPropertyName("time")]                          public DateTime[] Times                       { get; set; } = Array.Empty<DateTime>();
+        [JsonPropertyName("weather_code")]                  public int[]      WeatherCodes                { get; set; } = Array.Empty<int>();
+        [JsonPropertyName("temperature_2m_max")]            public double[]   MaxTemps                    { get; set; } = Array.Empty<double>();
+        [JsonPropertyName("temperature_2m_min")]            public double[]   MinTemps                    { get; set; } = Array.Empty<double>();
+        [JsonPropertyName("precipitation_sum")]             public double[]   PrecipitationSums           { get; set; } = Array.Empty<double>();
+        [JsonPropertyName("precipitation_probability_max")] public double[]   PrecipitationProbabilityMax { get; set; } = Array.Empty<double>();
     }
 }

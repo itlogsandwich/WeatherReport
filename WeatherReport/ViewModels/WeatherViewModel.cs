@@ -29,6 +29,10 @@ public partial class WeatherViewModel : ObservableObject
     [ObservableProperty] private string  _windDetailDisplay = string.Empty;
     [ObservableProperty] private string  _uvDisplay = "—";
     [ObservableProperty] private string  _uvAdviceDisplay = string.Empty;
+    [ObservableProperty] private string  _precipitationDisplay = "-";
+    [ObservableProperty] private string  _precipitationDetailDisplay = string.Empty;
+    [ObservableProperty] private string  _dailyPrecipitationDisplay = string.Empty;
+    [ObservableProperty] private string  _precipitationProbabilityDisplay = "-";
 
     [ObservableProperty] private bool    _isLoading;
     [ObservableProperty] private string? _errorMessage;
@@ -100,6 +104,10 @@ public partial class WeatherViewModel : ObservableObject
         WindDetailDisplay = $"{_current.WindDir} gusts {_current.WindGustKph:0}";
         UvDisplay         = $"{_current.UvIndex} {_current.UvLabel}";
         UvAdviceDisplay   = UvAdvice(_current.UvIndex);
+        PrecipitationDisplay            = $"{_current.PrecipitationMm:0.0} mm";
+        PrecipitationDetailDisplay      = $"Rain {_current.RainMm:0.0} mm | Showers {_current.ShowersMm:0.0} mm";
+        DailyPrecipitationDisplay       = $"{_current.DailyPrecipitationMm:0.0} mm today";
+        PrecipitationProbabilityDisplay = $"{_current.PrecipitationProbability}%";
 
         foreach (var item in Forecast)
             item.RefreshFormats();

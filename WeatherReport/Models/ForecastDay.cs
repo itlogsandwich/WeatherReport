@@ -6,4 +6,6 @@ public class ForecastDay
     public double HighC { get; set; }
     public double LowC { get; set; }
     public string Icon { get; set; } = string.Empty;
+    public double PrecipitationMm { get; set; }
+    public int PrecipitationProbability { get; set; }
 }

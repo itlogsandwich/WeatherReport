@@ -15,6 +15,8 @@ public partial class LocationsViewModel : ObservableObject
 
     [ObservableProperty] private bool _isLoading;
     [ObservableProperty] private string? _errorMessage;
+    [ObservableProperty] private string _city = string.Empty;
+    [ObservableProperty] private string _country = "Philippines";
 
     public ObservableCollection<LocationCardViewModel> Cards { get; } = new();
 
@@ -64,7 +66,11 @@ public partial class LocationsViewModel : ObservableObject
         {
             // Rebuild the visible cards from the saved list, then fetch in parallel.
             Cards.Clear();
-            var homeCity = _locations.Home.City;
+            var home = _locations.Home;
+            City = home.City;
+            Country = home.Country;
+
+            var homeCity = home.City;
             var cards = _locations.All
                 .Select(l => new LocationCardViewModel(l, _settings, l.City == homeCity))
                 .ToList();

@@ -141,44 +141,96 @@
                         </Border>
                     </VerticalStackLayout>
 
-                    <!-- ─── MAP PLACEHOLDER ──────────────────────────────────────── -->
-                    <Border StrokeThickness="0" Stroke="Transparent"
-                            StrokeShape="RoundRectangle 16"
-                            HeightRequest="160">
-                        <Border.Background>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                <GradientStop Color="#a9e2ff" Offset="0.0" />
-                                <GradientStop Color="#29667e" Offset="1.0" />
-                            </LinearGradientBrush>
-                        </Border.Background>
-                        <Grid>
-                            <Label FontSize="13" FontAttributes="Bold"
-                                   TextColor="White"
-                                   VerticalOptions="Center"
-                                   HorizontalOptions="Center">
-                                <Label.Text>
-                                    <MultiBinding StringFormat="🗺️  {0} — Philippines">
-                                        <Binding Path="City" />
-                                    </MultiBinding>
-                                </Label.Text>
-                            </Label>
-                            <Border BackgroundColor="{DynamicResource Surface}"
-                                    StrokeThickness="0"
-                                    StrokeShape="RoundRectangle 24"
-                                    Padding="12,6"
-                                    VerticalOptions="End"
-                                    HorizontalOptions="Start"
-                                    Margin="16,0,0,14">
-                                <HorizontalStackLayout Spacing="6">
-                                    <Label Text="🗺️" FontSize="12" VerticalOptions="Center"/>
-                                    <Label Text="PRECIPITATION MAP"
-                                           FontSize="10" FontAttributes="Bold"
-                                           TextColor="{DynamicResource OnSurface}"
-                                           VerticalOptions="Center" />
-                                </HorizontalStackLayout>
-                            </Border>
-                        </Grid>
-                    </Border>
+                    <!-- Precipitation map (Cebu island) -->
+                    <VerticalStackLayout Spacing="0">
+                        <Label Text="Precipitation Map"
+                               Style="{DynamicResource SectionTitleStyle}" />
+
+                        <Border StrokeThickness="0" Stroke="Transparent"
+                                StrokeShape="RoundRectangle 16"
+                                HeightRequest="250"
+                                Padding="0">
+                            <Grid>
+                                <Image Source="cebu_precipitation_map.png"
+                                       Aspect="AspectFit"
+                                       BackgroundColor="#BFE6F2" />
+                                <BoxView BackgroundColor="#0B2433"
+                                         Opacity="0.24" />
+
+                                <Grid Padding="16"
+                                      RowDefinitions="Auto,*,Auto">
+                                    <VerticalStackLayout Grid.Row="0" Spacing="4">
+                                        <Label Text="PRECIPITATION MAP"
+                                               FontSize="10"
+                                               FontAttributes="Bold"
+                                               TextColor="#E9FAFF" />
+                                        <Label Text="Cebu Island"
+                                               FontSize="18"
+                                               FontAttributes="Bold"
+                                               TextColor="White" />
+                                        <Label Text="{Binding PrecipitationDetailDisplay}"
+                                               FontSize="11"
+                                               TextColor="#D4F6FF" />
+                                    </VerticalStackLayout>
+
+                                    <Grid Grid.Row="2"
+                                          ColumnDefinitions="*,*,*"
+                                          ColumnSpacing="8">
+                                        <Border Grid.Column="0"
+                                                BackgroundColor="#D9153240"
+                                                StrokeThickness="0"
+                                                StrokeShape="RoundRectangle 12"
+                                                Padding="10,8">
+                                            <VerticalStackLayout Spacing="2">
+                                                <Label Text="NOW"
+                                                       FontSize="9"
+                                                       FontAttributes="Bold"
+                                                       TextColor="#BFEFFF" />
+                                                <Label Text="{Binding PrecipitationDisplay}"
+                                                       FontSize="15"
+                                                       FontAttributes="Bold"
+                                                       TextColor="White" />
+                                            </VerticalStackLayout>
+                                        </Border>
+
+                                        <Border Grid.Column="1"
+                                                BackgroundColor="#D9153240"
+                                                StrokeThickness="0"
+                                                StrokeShape="RoundRectangle 12"
+                                                Padding="10,8">
+                                            <VerticalStackLayout Spacing="2">
+                                                <Label Text="CHANCE"
+                                                       FontSize="9"
+                                                       FontAttributes="Bold"
+                                                       TextColor="#BFEFFF" />
+                                                <Label Text="{Binding PrecipitationProbabilityDisplay}"
+                                                       FontSize="15"
+                                                       FontAttributes="Bold"
+                                                       TextColor="White" />
+                                            </VerticalStackLayout>
+                                        </Border>
+
+                                        <Border Grid.Column="2"
+                                                BackgroundColor="#D9153240"
+                                                StrokeThickness="0"
+                                                StrokeShape="RoundRectangle 12"
+                                                Padding="10,8">
+                                            <VerticalStackLayout Spacing="2">
+                                                <Label Text="TODAY"
+                                                       FontSize="9"
+                                                       FontAttributes="Bold"
+                                                       TextColor="#BFEFFF" />
+                                                <Label Text="{Binding DailyPrecipitationDisplay}"
+                                                       FontSize="13"
+                                                       FontAttributes="Bold"
+                                                       TextColor="White" />
+                                            </VerticalStackLayout>
+                                        </Border>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </VerticalStackLayout>
 
                 </VerticalStackLayout>
             </ScrollView>

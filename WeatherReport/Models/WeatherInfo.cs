@@ -22,5 +22,11 @@ public class WeatherInfo
     public int UvIndex { get; set; }
     public string UvLabel { get; set; } = string.Empty;
 
+    public double PrecipitationMm { get; set; }
+    public double RainMm { get; set; }
+    public double ShowersMm { get; set; }
+    public double DailyPrecipitationMm { get; set; }
+    public int PrecipitationProbability { get; set; }
+
     public List<ForecastDay> Forecast { get; set; } = new();
 }
