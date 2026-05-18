@@ -11,6 +11,7 @@ public partial class WeatherViewModel : ObservableObject
     private readonly IWeatherService _weather;
     private readonly ISavedLocationsService _locations;
     private readonly SettingsService _settings;
+    private readonly SemaphoreSlim _loadGate = new(1, 1);
 
     private WeatherInfo? _current;
 
@@ -47,7 +48,8 @@ public partial class WeatherViewModel : ObservableObject
     [RelayCommand]
     public async Task LoadAsync(CancellationToken cancellationToken = default)
     {
-        if (IsLoading) return;
+        if (!await _loadGate.WaitAsync(0, cancellationToken))
+            return;
 
         IsLoading    = true;
         ErrorMessage = null;
@@ -64,6 +66,7 @@ public partial class WeatherViewModel : ObservableObject
         finally
         {
             IsLoading = false;
+            _loadGate.Release();
         }
     }
 

@@ -19,7 +19,10 @@ namespace WeatherReport
                 });
 
             // ── Services ──────────────────────────────────────────────────
-            builder.Services.AddSingleton<HttpClient>();
+            builder.Services.AddSingleton(_ => new HttpClient
+            {
+                Timeout = TimeSpan.FromSeconds(15),
+            });
             builder.Services.AddSingleton<SettingsService>();
             builder.Services.AddSingleton<ISavedLocationsService, SavedLocationsService>();
             builder.Services.AddSingleton<IWeatherService, WeatherService>();

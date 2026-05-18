@@ -9,6 +9,7 @@ public class WeatherService : IWeatherService
 {
     private const string BaseUrl = "https://api.open-meteo.com/v1/forecast";
     private const string Timezone = "Asia/Manila";
+    private static readonly TimeSpan RequestTimeout = TimeSpan.FromSeconds(12);
 
     private readonly HttpClient _http;
 
@@ -26,10 +27,23 @@ public class WeatherService : IWeatherService
             "&current=temperature_2m,relative_humidity_2m,apparent_temperature," +
             "wind_speed_10m,wind_gusts_10m,wind_direction_10m,uv_index,weather_code,dew_point_2m" +
             "&daily=weather_code,temperature_2m_max,temperature_2m_min" +
-            $"&timezone={Timezone}&forecast_days=5";
+            $"&timezone={Uri.EscapeDataString(Timezone)}&forecast_days=5";
 
-        var dto = await _http.GetFromJsonAsync<OpenMeteoResponse>(url, cancellationToken)
-                  ?? throw new InvalidOperationException("Weather API returned an empty response.");
+        using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        timeout.CancelAfter(RequestTimeout);
+
+        OpenMeteoResponse? dto;
+        try
+        {
+            dto = await _http.GetFromJsonAsync<OpenMeteoResponse>(url, timeout.Token);
+        }
+        catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
+        {
+            throw new TimeoutException("Open-Meteo took too long to respond.");
+        }
+
+        if (dto is null)
+            throw new InvalidOperationException("Weather API returned an empty response.");
 
         return Map(location, dto);
     }

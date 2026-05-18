@@ -11,6 +11,7 @@ public partial class LocationsViewModel : ObservableObject
     private readonly IWeatherService _weather;
     private readonly ISavedLocationsService _locations;
     private readonly SettingsService _settings;
+    private readonly SemaphoreSlim _rebuildGate = new(1, 1);
 
     [ObservableProperty] private bool _isLoading;
     [ObservableProperty] private string? _errorMessage;
@@ -36,7 +37,6 @@ public partial class LocationsViewModel : ObservableObject
     [RelayCommand]
     public async Task RefreshAsync(CancellationToken cancellationToken = default)
     {
-        if (IsLoading) return;
         await RebuildAsync(cancellationToken);
     }
 
@@ -55,6 +55,9 @@ public partial class LocationsViewModel : ObservableObject
 
     private async Task RebuildAsync(CancellationToken cancellationToken = default)
     {
+        if (!await _rebuildGate.WaitAsync(0, cancellationToken))
+            return;
+
         IsLoading = true;
         ErrorMessage = null;
         try
@@ -78,6 +81,7 @@ public partial class LocationsViewModel : ObservableObject
         finally
         {
             IsLoading = false;
+            _rebuildGate.Release();
         }
     }
 

@@ -70,22 +70,22 @@ public class SettingsService
 
     private static void ApplyThemeResources(ResourceDictionary resources, bool useDarkMode)
     {
-        resources["Primary"]               = Color.FromArgb(useDarkMode ? "#9BD4F0" : "#29667E");
-        resources["PrimaryDark"]           = Color.FromArgb(useDarkMode ? "#D8EEF7" : "#9BD4F0");
-        resources["PrimaryDarkText"]       = Color.FromArgb(useDarkMode ? "#EAF7FC" : "#153845");
+        resources["Primary"]               = Color.FromArgb(useDarkMode ? "#75B9D5" : "#29667E");
+        resources["PrimaryDark"]           = Color.FromArgb(useDarkMode ? "#A8D7EA" : "#9BD4F0");
+        resources["PrimaryDarkText"]       = Color.FromArgb(useDarkMode ? "#14303B" : "#153845");
         resources["Secondary"]             = Color.FromArgb(useDarkMode ? "#1E4D60" : "#D8EEF7");
-        resources["SecondaryDarkText"]     = Color.FromArgb(useDarkMode ? "#C7E9F8" : "#195A72");
-        resources["Background"]            = Color.FromArgb(useDarkMode ? "#101820" : "#F7F9FC");
-        resources["Surface"]               = Color.FromArgb(useDarkMode ? "#16232C" : "#FFFFFF");
-        resources["SurfaceContainerLow"]   = Color.FromArgb(useDarkMode ? "#20313C" : "#F0F4F8");
-        resources["OnSurface"]             = Color.FromArgb(useDarkMode ? "#EEF6FA" : "#2C3338");
-        resources["OnSurfaceVariant"]      = Color.FromArgb(useDarkMode ? "#B7C7D0" : "#596065");
-        resources["OnPrimary"]             = Color.FromArgb(useDarkMode ? "#102633" : "#FFFFFF");
-        resources["PrimaryDim"]            = Color.FromArgb(useDarkMode ? "#B7E2F4" : "#195A72");
-        resources["PrimaryContainer"]      = Color.FromArgb(useDarkMode ? "#173B4B" : "#DBEAFE");
-        resources["SecondaryContainer"]    = Color.FromArgb(useDarkMode ? "#244654" : "#E0F2FE");
-        resources["Outline"]               = Color.FromArgb(useDarkMode ? "#91A4AF" : "#64748B");
-        resources["OutlineVariant"]        = Color.FromArgb(useDarkMode ? "#334854" : "#CBD5E1");
+        resources["SecondaryDarkText"]     = Color.FromArgb(useDarkMode ? "#9FCFE3" : "#195A72");
+        resources["Background"]            = Color.FromArgb(useDarkMode ? "#0F1418" : "#F7F9FC");
+        resources["Surface"]               = Color.FromArgb(useDarkMode ? "#182129" : "#FFFFFF");
+        resources["SurfaceContainerLow"]   = Color.FromArgb(useDarkMode ? "#202B34" : "#F0F4F8");
+        resources["OnSurface"]             = Color.FromArgb(useDarkMode ? "#D6E2E8" : "#2C3338");
+        resources["OnSurfaceVariant"]      = Color.FromArgb(useDarkMode ? "#9EAFB8" : "#596065");
+        resources["OnPrimary"]             = Color.FromArgb(useDarkMode ? "#0C2029" : "#FFFFFF");
+        resources["PrimaryDim"]            = Color.FromArgb(useDarkMode ? "#8AC4DC" : "#195A72");
+        resources["PrimaryContainer"]      = Color.FromArgb(useDarkMode ? "#193544" : "#DBEAFE");
+        resources["SecondaryContainer"]    = Color.FromArgb(useDarkMode ? "#243C48" : "#E0F2FE");
+        resources["Outline"]               = Color.FromArgb(useDarkMode ? "#78909B" : "#64748B");
+        resources["OutlineVariant"]        = Color.FromArgb(useDarkMode ? "#33444E" : "#CBD5E1");
     }
 
     private void RaiseUnitChanged() =>
