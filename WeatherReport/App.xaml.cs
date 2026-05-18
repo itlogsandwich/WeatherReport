@@ -1,18 +1,16 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using WeatherReport.Services;
 
 namespace WeatherReport
 {
     public partial class App : Application
     {
-        public App()
+        public App(SettingsService settings)
         {
             InitializeComponent();
-            Services.SettingsService.Instance.ApplyTheme();
+            settings.ApplyTheme();
         }
 
-        protected override Window CreateWindow(IActivationState? activationState)
-        {
-            return new Window(new AppShell());
-        }
+        protected override Window CreateWindow(IActivationState? activationState) =>
+            new Window(new AppShell());
     }
 }

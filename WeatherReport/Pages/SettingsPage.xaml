@@ -3,45 +3,28 @@
     x:Class="WeatherReport.Pages.SettingsPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:WeatherReport.Controls"
+    xmlns:vm="clr-namespace:WeatherReport.ViewModels"
+    x:DataType="vm:SettingsViewModel"
     Shell.NavBarIsVisible="False"
     BackgroundColor="{DynamicResource Background}">
 
     <Grid RowDefinitions="Auto,*">
 
-        <!-- ══════════════════════════════ TOP APP BAR ══════════════════════════════ -->
-        <Border Grid.Row="0"
-                BackgroundColor="{DynamicResource Surface}"
-                StrokeThickness="0"
-                Stroke="Transparent">
-            <Grid Padding="16,12" ColumnDefinitions="Auto,*,Auto">
-                <Label Grid.Column="0" Text="☰" FontSize="22"
-                       TextColor="{DynamicResource PrimaryDim}" VerticalOptions="Center"/>
-                <Label Grid.Column="1" Text="WeatherReport"
-                       FontSize="20" FontAttributes="Bold"
-                       TextColor="{DynamicResource OnSurface}"
-                       VerticalOptions="Center" Margin="12,0,0,0"/>
-                <Label Grid.Column="2" Text="🔍" FontSize="20"
-                       TextColor="{DynamicResource PrimaryDim}" VerticalOptions="Center"/>
-            </Grid>
-        </Border>
+        <controls:TopAppBar Grid.Row="0" Title="WeatherReport" />
 
-        <!-- ══════════════════════════════ SCROLL BODY ══════════════════════════════ -->
         <ScrollView Grid.Row="1">
             <VerticalStackLayout Padding="20,16,20,40" Spacing="16">
 
-                <!-- ─── Page Header ──────────────────────────────────────────── -->
                 <VerticalStackLayout Spacing="2">
-                    <Label Text="Settings"
-                           Style="{DynamicResource PageTitleStyle}" />
-                    <Label Text="Configure WeatherReport."
-                           Style="{DynamicResource SubtitleStyle}" />
+                    <Label Text="Settings" Style="{DynamicResource PageTitleStyle}" />
+                    <Label Text="Configure WeatherReport." Style="{DynamicResource SubtitleStyle}" />
                 </VerticalStackLayout>
 
                 <!-- ─── Temperature Unit Card ────────────────────────────────── -->
                 <Border Style="{DynamicResource CardStyle}">
                     <VerticalStackLayout Spacing="16">
 
-                        <!-- Card header -->
                         <HorizontalStackLayout Spacing="14">
                             <Border BackgroundColor="{DynamicResource SecondaryContainer}"
                                     StrokeThickness="0"
@@ -61,7 +44,6 @@
                             </VerticalStackLayout>
                         </HorizontalStackLayout>
 
-                        <!-- Segmented toggle -->
                         <Border BackgroundColor="{DynamicResource SurfaceContainerLow}"
                                 StrokeThickness="0"
                                 Stroke="Transparent"
@@ -70,51 +52,43 @@
                                 HeightRequest="52">
                             <Grid ColumnDefinitions="*,*" ColumnSpacing="4">
 
-                                <!-- Celsius button -->
-                                <Border x:Name="CelsiusBorder"
-                                        Grid.Column="0"
-                                        BackgroundColor="{DynamicResource Primary}"
+                                <Border Grid.Column="0"
+                                        BackgroundColor="{Binding IsCelsius, Converter={StaticResource UnitPillBackgroundConverter}}"
                                         StrokeThickness="0"
                                         Stroke="Transparent"
                                         StrokeShape="RoundRectangle 28">
-                                    <Label x:Name="CelsiusLabel"
-                                           Text="Celsius (°C)"
+                                    <Label Text="Celsius (°C)"
                                            FontSize="14" FontAttributes="Bold"
-                                           TextColor="{DynamicResource OnPrimary}"
+                                           TextColor="{Binding IsCelsius, Converter={StaticResource UnitPillTextConverter}}"
                                            HorizontalOptions="Center"
                                            VerticalOptions="Center" />
                                     <Border.GestureRecognizers>
-                                        <TapGestureRecognizer Tapped="OnCelsiusTapped" />
+                                        <TapGestureRecognizer Command="{Binding SetCelsiusCommand}" />
                                     </Border.GestureRecognizers>
                                 </Border>
 
-                                <!-- Fahrenheit button -->
-                                <Border x:Name="FahrenheitBorder"
-                                        Grid.Column="1"
-                                        BackgroundColor="Transparent"
+                                <Border Grid.Column="1"
+                                        BackgroundColor="{Binding IsCelsius, Converter={StaticResource UnitPillBackgroundConverter}, ConverterParameter=invert}"
                                         StrokeThickness="0"
                                         Stroke="Transparent"
                                         StrokeShape="RoundRectangle 28">
-                                    <Label x:Name="FahrenheitLabel"
-                                           Text="Fahrenheit (°F)"
+                                    <Label Text="Fahrenheit (°F)"
                                            FontSize="14" FontAttributes="Bold"
-                                           TextColor="{DynamicResource OnSurfaceVariant}"
+                                           TextColor="{Binding IsCelsius, Converter={StaticResource UnitPillTextConverter}, ConverterParameter=invert}"
                                            HorizontalOptions="Center"
                                            VerticalOptions="Center" />
                                     <Border.GestureRecognizers>
-                                        <TapGestureRecognizer Tapped="OnFahrenheitTapped" />
+                                        <TapGestureRecognizer Command="{Binding SetFahrenheitCommand}" />
                                     </Border.GestureRecognizers>
                                 </Border>
 
                             </Grid>
                         </Border>
 
-                        <!-- Live preview -->
                         <HorizontalStackLayout HorizontalOptions="Center" Spacing="8">
                             <Label Text="Preview:" FontSize="13"
                                    TextColor="{DynamicResource OnSurfaceVariant}" />
-                            <Label x:Name="PreviewLabel"
-                                   Text="33°C"
+                            <Label Text="{Binding PreviewDisplay}"
                                    FontSize="13" FontAttributes="Bold"
                                    TextColor="{DynamicResource Primary}" />
                         </HorizontalStackLayout>
@@ -126,14 +100,13 @@
                 <Border Style="{DynamicResource CardStyle}" Padding="0">
                     <VerticalStackLayout Spacing="0">
 
-                        <!-- Notifications -->
                         <Grid Padding="20,16" ColumnDefinitions="Auto,*,Auto">
                             <Label Grid.Column="0" Text="🔔" FontSize="22" VerticalOptions="Center" Margin="0,0,14,0"/>
                             <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
                                 <Label Text="Notification Preferences"
                                        FontSize="15" FontAttributes="Bold"
                                        TextColor="{DynamicResource OnSurface}" />
-                                <Label Text="Alerts, daily summary, severe weather"
+                                <Label Text="Coming soon"
                                        FontSize="12"
                                        TextColor="{DynamicResource OnSurfaceVariant}" />
                             </VerticalStackLayout>
@@ -142,33 +115,27 @@
                                    VerticalOptions="Center" />
                         </Grid>
 
-                        <!-- Divider -->
                         <BoxView HeightRequest="1" Color="{DynamicResource SurfaceContainerLow}" />
 
-                        <!-- Appearance -->
                         <Grid Padding="20,16" ColumnDefinitions="Auto,*,Auto">
                             <Label Grid.Column="0" Text="🌙" FontSize="22" VerticalOptions="Center" Margin="0,0,14,0"/>
                             <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
                                 <Label Text="Appearance"
                                        FontSize="15" FontAttributes="Bold"
                                        TextColor="{DynamicResource OnSurface}" />
-                                <Label x:Name="AppearanceLabel"
-                                       Text="Light mode"
+                                <Label Text="{Binding AppearanceLabel}"
                                        FontSize="12"
                                        TextColor="{DynamicResource OnSurfaceVariant}" />
                             </VerticalStackLayout>
-                            <Switch x:Name="AppearanceSwitch"
-                                    Grid.Column="2"
-                                    Toggled="OnAppearanceToggled"
+                            <Switch Grid.Column="2"
+                                    IsToggled="{Binding IsDarkMode, Mode=TwoWay}"
                                     ThumbColor="{DynamicResource Primary}"
                                     OnColor="{DynamicResource PrimaryContainer}"
                                     VerticalOptions="Center" />
                         </Grid>
 
-                        <!-- Divider -->
                         <BoxView HeightRequest="1" Color="{DynamicResource SurfaceContainerLow}" />
 
-                        <!-- Saved Locations -->
                         <Grid Padding="20,16" ColumnDefinitions="Auto,*,Auto">
                             <Label Grid.Column="0" Text="📍" FontSize="22" VerticalOptions="Center" Margin="0,0,14,0"/>
                             <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
@@ -184,10 +151,8 @@
                                    VerticalOptions="Center" />
                         </Grid>
 
-                        <!-- Divider -->
                         <BoxView HeightRequest="1" Color="{DynamicResource SurfaceContainerLow}" />
 
-                        <!-- Language -->
                         <Grid Padding="20,16" ColumnDefinitions="Auto,*,Auto">
                             <Label Grid.Column="0" Text="🌐" FontSize="22" VerticalOptions="Center" Margin="0,0,14,0"/>
                             <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
@@ -209,7 +174,6 @@
                 <!-- ─── About / Rate Us ───────────────────────────────────────── -->
                 <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
 
-                    <!-- About card -->
                     <Border Grid.Column="0"
                             BackgroundColor="{DynamicResource PrimaryContainer}"
                             StrokeThickness="0"
@@ -223,7 +187,7 @@
                                    FontSize="20" FontAttributes="Bold"
                                    TextColor="{DynamicResource Primary}"
                                    LineBreakMode="WordWrap" />
-                            <Label Text="v1.0.0 (Build 1)&#10;Built for sky-watchers."
+                            <Label Text="v1.0.0 (Build 1)&#10;Powered by Open-Meteo."
                                    FontSize="12"
                                    TextColor="{DynamicResource PrimaryDim}"
                                    LineBreakMode="WordWrap"
@@ -231,7 +195,6 @@
                         </VerticalStackLayout>
                     </Border>
 
-                    <!-- Rate Us card -->
                     <Border Grid.Column="1"
                             StrokeThickness="0"
                             Stroke="Transparent"
@@ -257,7 +220,6 @@
 
                 </Grid>
 
-                <!-- ─── Legal Footer ─────────────────────────────────────────── -->
                 <VerticalStackLayout HorizontalOptions="Center" Spacing="6" Margin="0,12,0,0">
                     <HorizontalStackLayout HorizontalOptions="Center" Spacing="24">
                         <Label Text="Privacy Policy"

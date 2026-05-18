@@ -1,52 +1,113 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows.Input;
+using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using WeatherReport.Models;
+using WeatherReport.Services;
 
-namespace WeatherReport.ViewModels
+namespace WeatherReport.ViewModels;
+
+public partial class WeatherViewModel : ObservableObject
 {
-    public class WeatherViewModel : INotifyPropertyChanged
+    private readonly IWeatherService _weather;
+    private readonly ISavedLocationsService _locations;
+    private readonly SettingsService _settings;
+
+    private WeatherInfo? _current;
+
+    [ObservableProperty] private string  _city = string.Empty;
+    [ObservableProperty] private string  _country = "Philippines";
+    [ObservableProperty] private string  _localTime = string.Empty;
+    [ObservableProperty] private string  _tempDisplay = "—";
+    [ObservableProperty] private string  _hiLoFeelsDisplay = string.Empty;
+    [ObservableProperty] private string  _condition = string.Empty;
+    [ObservableProperty] private string  _icon = string.Empty;
+
+    [ObservableProperty] private string  _humidityDisplay = "—";
+    [ObservableProperty] private string  _dewPointDisplay = string.Empty;
+    [ObservableProperty] private string  _windDisplay = "—";
+    [ObservableProperty] private string  _windDetailDisplay = string.Empty;
+    [ObservableProperty] private string  _uvDisplay = "—";
+    [ObservableProperty] private string  _uvAdviceDisplay = string.Empty;
+
+    [ObservableProperty] private bool    _isLoading;
+    [ObservableProperty] private string? _errorMessage;
+
+    public ObservableCollection<ForecastDayViewModel> Forecast { get; } = new();
+
+    public WeatherViewModel(IWeatherService weather, ISavedLocationsService locations, SettingsService settings)
     {
-        private static WeatherViewModel? _instance;
-        public static WeatherViewModel Current => _instance ??= new WeatherViewModel();
+        _weather   = weather;
+        _locations = locations;
+        _settings  = settings;
 
-        private bool _isCelsius = true;
-        public bool IsCelsius
-        {
-            get => _isCelsius;
-            set
-            {
-                if (_isCelsius != value)
-                {
-                    _isCelsius = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged(nameof(CurrentTemp));
-                    OnPropertyChanged(nameof(HighTemp));
-                    OnPropertyChanged(nameof(LowTemp));
-                    OnPropertyChanged(nameof(CelsiusBg));
-                    OnPropertyChanged(nameof(FahrenheitBg));
-                }
-            }
-        }
-
-        public string Location => "Cebu City, Philippines";
-        public string CurrentTemp => IsCelsius ? "33°" : "91°";
-        public string HighTemp => IsCelsius ? "H: 35°" : "H: 95°";
-        public string LowTemp => IsCelsius ? "L: 26°" : "L: 79°";
-
-        public Color CelsiusBg => IsCelsius ? Color.FromArgb("#29667e") : Color.FromArgb("#dce3e9");
-        public Color FahrenheitBg => !IsCelsius ? Color.FromArgb("#29667e") : Color.FromArgb("#dce3e9");
-
-        public ICommand SetCelsiusCommand { get; }
-        public ICommand SetFahrenheitCommand { get; }
-
-        public WeatherViewModel()
-        {
-            SetCelsiusCommand = new Command(() => IsCelsius = true);
-            SetFahrenheitCommand = new Command(() => IsCelsius = false);
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        _settings.UnitChanged    += (_, _) => RefreshDisplays();
+        _locations.Changed       += (_, _) => _ = LoadAsync();
     }
+
+    [RelayCommand]
+    public async Task LoadAsync(CancellationToken cancellationToken = default)
+    {
+        if (IsLoading) return;
+
+        IsLoading    = true;
+        ErrorMessage = null;
+        try
+        {
+            _current = await _weather.GetWeatherAsync(_locations.Home, cancellationToken);
+            RebuildForecast();
+            RefreshDisplays();
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = $"Couldn't load weather: {ex.Message}";
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    private void RebuildForecast()
+    {
+        Forecast.Clear();
+        if (_current is null) return;
+
+        foreach (var day in _current.Forecast)
+            Forecast.Add(new ForecastDayViewModel(day, _settings));
+    }
+
+    private void RefreshDisplays()
+    {
+        if (_current is null) return;
+
+        City      = _current.City;
+        Country   = _current.Country;
+        LocalTime = _current.LocalTime;
+        Condition = _current.Condition;
+        Icon      = _current.Icon;
+
+        TempDisplay      = _settings.FormatTemp(_current.TempC);
+        HiLoFeelsDisplay = $"H: {_settings.FormatTemp(_current.HighC)}   " +
+                           $"L: {_settings.FormatTemp(_current.LowC)}  •  " +
+                           $"Feels like {_settings.FormatTemp(_current.FeelsLikeC)}";
+
+        HumidityDisplay   = $"{_current.Humidity}%";
+        DewPointDisplay   = $"Dew pt {_settings.FormatTemp(_current.DewPointC)}";
+        WindDisplay       = $"{_current.WindKph:0} kph";
+        WindDetailDisplay = $"{_current.WindDir} gusts {_current.WindGustKph:0}";
+        UvDisplay         = $"{_current.UvIndex} {_current.UvLabel}";
+        UvAdviceDisplay   = UvAdvice(_current.UvIndex);
+
+        foreach (var item in Forecast)
+            item.RefreshFormats();
+    }
+
+    private static string UvAdvice(int uv) => uv switch
+    {
+        <  3 => "Safe outdoors",
+        <  6 => "Wear sunscreen",
+        <  8 => "Use SPF 30+",
+        < 11 => "Use SPF 50+",
+        _    => "Avoid sun exposure",
+    };
 }

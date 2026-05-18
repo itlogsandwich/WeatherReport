@@ -1,6 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using WeatherReport.Pages;
 using WeatherReport.Services;
+using WeatherReport.ViewModels;
 
 namespace WeatherReport
 {
@@ -16,13 +17,23 @@ namespace WeatherReport
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
-            // Services
-            builder.Services.AddSingleton(SettingsService.Instance);
 
-            // Pages
+            // ── Services ──────────────────────────────────────────────────
+            builder.Services.AddSingleton<HttpClient>();
+            builder.Services.AddSingleton<SettingsService>();
+            builder.Services.AddSingleton<ISavedLocationsService, SavedLocationsService>();
+            builder.Services.AddSingleton<IWeatherService, WeatherService>();
+
+            // ── ViewModels ────────────────────────────────────────────────
+            builder.Services.AddTransient<WeatherViewModel>();
+            builder.Services.AddTransient<LocationsViewModel>();
+            builder.Services.AddTransient<SettingsViewModel>();
+
+            // ── Pages ─────────────────────────────────────────────────────
             builder.Services.AddTransient<WeatherPage>();
             builder.Services.AddTransient<LocationsPage>();
             builder.Services.AddTransient<SettingsPage>();
+
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
